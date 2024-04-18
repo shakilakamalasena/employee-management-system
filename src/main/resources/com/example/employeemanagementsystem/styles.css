@@ -1,0 +1,16 @@
+.background {
+    -fx-background-color: #fff;
+}
+
+.closebtn {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.btn {
+    -fx-cursor: hand;
+}
+
+.left-side {
+    -fx-background-color: linear-gradient(to bottom left, #a9a9a9, #fffcfc);
+}

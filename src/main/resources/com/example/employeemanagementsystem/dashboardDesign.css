@@ -1,0 +1,56 @@
+.top-form {
+    -fx-background-color: #fff;
+    -fx-border-color: #000;
+    -fx-border-width: .4px .4px .2px .4px;
+}
+
+.semi-top-form {
+    -fx-background-color: #efefef;
+    -fx-border-color: #000;
+    -fx-border-width: .2px .4px .8px .4px;
+}
+
+.nav-form {
+    -fx-background-color: linear-gradient(to bottom left, #a9a9a9, #fffcfc);
+}
+
+.nav-btn {
+    -fx-background-color: linear-gradient(to bottom left, #a9a9a9, #fffcfc);
+    -fx-background-radius: 100px;
+    -fx-border-color: #111;
+    -fx-border-width: 1px;
+    -fx-cursor: hand;
+    -fx-border-radius: 50px;
+    -fx-alignment: CENTER-LEFT;
+}
+
+.nav-btn:hover {
+    -fx-background-color: linear-gradient(to bottom left, #dad6d6, #ffffff);;
+}
+
+.logout {
+    -fx-background-radius: 10px;
+    -fx-background-color: rgb(227, 227, 227);
+    -fx-cursor: hand;
+    -fx-border-color: #111;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+}
+
+.logout:hover {
+    -fx-background-color: rgb(255, 248, 248);
+}
+
+.shadow {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 6,0,0,0);
+}
+
+.white-bg {
+    -fx-background-color: #fff;
+    -fx-background-radius: 8px;
+}
+
+.card {
+    -fx-background-color: linear-gradient(to bottom left, #a9a9a9, #fffcfc);
+    -fx-background-radius: 9px;
+}
