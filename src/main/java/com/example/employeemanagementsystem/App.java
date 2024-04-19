@@ -36,6 +36,8 @@ public class App extends Application {
             stage.setOpacity(1);
         });
 
+        stage.initStyle(StageStyle.TRANSPARENT);
+
         stage.setTitle("Employee Management System");
         stage.setScene(scene);
         stage.show();
