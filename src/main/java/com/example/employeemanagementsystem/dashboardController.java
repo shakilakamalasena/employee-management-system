@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -185,6 +186,99 @@ public class dashboardController implements Initializable {
     private ResultSet resultSet;
 
     private Image image;
+
+    public void homeTotalEmployees() {
+
+        String sql = "SELECT COUNT(id) FROM employee";
+
+        connect = database.connectDb();
+        int countData = 0;
+
+        try {
+
+            statement = connect.createStatement();
+            resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                countData = resultSet.getInt("COUNT(id)");
+            }
+
+            home_totalEmployees.setText(String.valueOf(countData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void homeEmployeeTotalPresent() {
+
+        String sql = "SELECT COUNT(id) FROM employee_info";
+
+        connect = database.connectDb();
+        int countData = 0;
+
+        try {
+
+            statement = connect.createStatement();
+            resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()){
+                countData = resultSet.getInt("COUNT(id)");
+            }
+
+            home_totalPresents.setText(String.valueOf(countData));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void homeTotalInactive() {
+
+        String sql = "SELECT COUNT(id) FROM employee_info WHERE salary = '0.0'";
+
+        connect = database.connectDb();
+        int countData = 0;
+
+        try {
+            preparedStatement = connect.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                countData = resultSet.getInt("COUNT(id)");
+            }
+            home_totalInactiveEmp.setText(String.valueOf(countData));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void homeChart() {
+
+        home_chart.getData().clear();
+
+        String sql = "SELECT date, COUNT(id) FROM employee GROUP BY date ORDER BY TIMESTAMP(date) ASC LIMIT 7";
+
+        connect = database.connectDb();
+
+        try{
+
+            XYChart.Series chart = new XYChart.Series();
+
+            preparedStatement = connect.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                chart.getData().add(new XYChart.Data(resultSet.getString(1), resultSet.getInt(2)));
+            }
+
+            home_chart.getData().add(chart);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void addEmployeeAdd() {
 
@@ -690,6 +784,10 @@ public class dashboardController implements Initializable {
 
     }
 
+    public void defaultNav() {
+        home_btn.setStyle("-fx-background-color: linear-gradient(to bottom left, #a9a9a9, #fffcfc);");
+    }
+
     public void displayUsername() {
         username.setText(getData.username);
     }
@@ -704,6 +802,11 @@ public class dashboardController implements Initializable {
             home_btn.setStyle("-fx-background-color: linear-gradient(to bottom left, #a9a9a9, #fffcfc);");
             addEmployee_btn.setStyle("-fx-background-color: transparent");
             salary_btn.setStyle("-fx-background-color: transparent");
+
+            homeTotalEmployees();
+            homeEmployeeTotalPresent();
+            homeTotalInactive();
+            homeChart();
 
         } else if (event.getSource() == addEmployee_btn) {
             home_form.setVisible(false);
@@ -791,6 +894,12 @@ public class dashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         displayUsername();
+        defaultNav();
+
+        homeTotalEmployees();
+        homeEmployeeTotalPresent();
+        homeTotalInactive();
+        homeChart();
 
         addEmployeeShowListData();
         addEmployeeGenderList();

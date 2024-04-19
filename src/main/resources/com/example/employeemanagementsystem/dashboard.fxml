@@ -140,7 +140,7 @@
                <center>
                   <AnchorPane fx:id="salary_form" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="home_form" layoutY="1.8" prefHeight="554.4" prefWidth="888.8" visible="false" AnchorPane.bottomAnchor="-1.7999999999999545" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.8">
+                        <AnchorPane fx:id="home_form" layoutY="1.8" prefHeight="554.4" prefWidth="888.8" AnchorPane.bottomAnchor="-1.7999999999999545" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.8">
                            <children>
                               <AnchorPane layoutX="11.0" layoutY="10.0" prefHeight="531.0" prefWidth="866.0" stylesheets="@dashboardDesign.css">
                                  <styleClass>
@@ -328,7 +328,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="salary_form" layoutX="38.0" layoutY="14.0" prefHeight="554.4" prefWidth="888.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="salary_form" layoutX="38.0" layoutY="14.0" prefHeight="554.4" prefWidth="888.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="8.0" layoutY="7.0" prefHeight="537.0" prefWidth="283.0" stylesheets="@dashboardDesign.css">
                                  <styleClass>
