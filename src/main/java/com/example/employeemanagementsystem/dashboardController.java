@@ -168,7 +168,7 @@ public class dashboardController implements Initializable {
     private TextField salary_salary;
 
     @FXML
-    private Label salary_sname;
+    private Label salary_lname;
 
     @FXML
     private TableView<employeeData> salary_tableView;
@@ -244,7 +244,19 @@ public class dashboardController implements Initializable {
 
                     preparedStatement.setString(7, uri);
                     preparedStatement.setString(8, String.valueOf(sqlDate));
+                    preparedStatement.executeUpdate();
 
+                    String insertInfo = "INSERT INTO employee_info "
+                            + "(employee_id, firstName, lastName, position, salary, date) "
+                            + "VALUES(?,?,?,?,?,?)";
+
+                    preparedStatement = connect.prepareStatement(insertInfo);
+                    preparedStatement.setString(1, addEmployee_employeeID.getText());
+                    preparedStatement.setString(2, addEmployee_fname.getText());
+                    preparedStatement.setString(3, addEmployee_lname.getText());
+                    preparedStatement.setString(4, (String) addEmployee_position.getSelectionModel().getSelectedItem());
+                    preparedStatement.setString(5, "0.0");
+                    preparedStatement.setString(6, String.valueOf(sqlDate));
                     preparedStatement.executeUpdate();
 
                     alert = new Alert(Alert.AlertType.INFORMATION);
@@ -312,6 +324,28 @@ public class dashboardController implements Initializable {
                     statement = connect.createStatement();
                     statement.executeUpdate(sql);
 
+                    double salary = 0;
+
+                    String checkData = "SELECT * FROM employee_info WHERE employee_id = '"
+                            + addEmployee_employeeID.getText() + "'";
+
+                    preparedStatement = connect.prepareStatement(checkData);
+                    resultSet = preparedStatement.executeQuery();
+
+                    while (resultSet.next()) {
+                        salary = resultSet.getDouble("salary");
+                    }
+
+                    String updateInfo = "UPDATE employee_info SET firstName = '"
+                            + addEmployee_fname.getText() + "', lastName = '"
+                            + addEmployee_lname.getText() + "', position = '"
+                            + addEmployee_position.getSelectionModel().getSelectedItem()
+                            + "' WHERE employee_id = '"
+                            + addEmployee_employeeID.getText() + "'";
+
+                    preparedStatement = connect.prepareStatement(updateInfo);
+                    preparedStatement.executeUpdate();
+
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information Message");
                     alert.setHeaderText(null);
@@ -365,7 +399,7 @@ public class dashboardController implements Initializable {
                     statement = connect.createStatement();
                     statement.executeUpdate(sql);
 
-                    String deleteInfo = "DELETE FROM employee WHERE employee_id = '"
+                    String deleteInfo = "DELETE FROM employee_info WHERE employee_id = '"
                             + addEmployee_employeeID.getText() + "'";
 
                     preparedStatement = connect.prepareStatement(deleteInfo);
@@ -547,6 +581,115 @@ public class dashboardController implements Initializable {
         addEmployee_image.setImage(image);
     }
 
+    public void salaryUpdate() {
+
+        String sql = "UPDATE employee_info SET salary = '" + salary_salary.getText()
+                + "' WHERE employee_id = '" + salary_employeeID.getText() + "'";
+
+        connect = database.connectDb();
+
+        try {
+            Alert alert;
+
+            if(salary_employeeID.getText().isEmpty()
+                    || salary_fname.getText().isEmpty()
+                    || salary_lname.getText().isEmpty()
+                    || salary_position.getText().isEmpty()) {
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select item first");
+                alert.showAndWait();
+            } else {
+                statement = connect.createStatement();
+                statement.executeUpdate(sql);
+
+                alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Successfully Updated!");
+                alert.showAndWait();
+
+                salaryShowListData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void salaryReset() {
+        salary_employeeID.setText("");
+        salary_fname.setText("");
+        salary_lname.setText("");
+        salary_position.setText("");
+        salary_salary.setText("");
+    }
+
+    public ObservableList<employeeData> salaryListData() {
+
+        ObservableList<employeeData> listData = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM employee_info";
+
+        connect = database.connectDb();
+
+        try {
+            preparedStatement = connect.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
+            employeeData employeeData;
+
+            while (resultSet.next()) {
+                employeeData = new employeeData(resultSet.getInt("employee_id")
+                        , resultSet.getString("firstName")
+                        , resultSet.getString("lastName")
+                        , resultSet.getString("position")
+                        , resultSet.getDouble("salary"));
+
+                listData.add(employeeData);
+
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return listData;
+
+    }
+
+    private ObservableList<employeeData> salaryList;
+    public void salaryShowListData() {
+        salaryList = salaryListData();
+
+        salary_col_employeeID.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
+        salary_col_fname.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        salary_col_lname.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        salary_col_position.setCellValueFactory(new PropertyValueFactory<>("position"));
+        salary_col_salary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+
+        salary_tableView.setItems(salaryList);
+
+    }
+
+    public void salarySelect() {
+
+        employeeData employeeD = salary_tableView.getSelectionModel().getSelectedItem();
+        int num = salary_tableView.getSelectionModel().getSelectedIndex();
+
+        if ((num - 1) < -1) {
+            return;
+        }
+
+        salary_employeeID.setText(String.valueOf(employeeD.getEmployeeId()));
+        salary_fname.setText(employeeD.getFirstName());
+        salary_lname.setText(employeeD.getLastName());
+        salary_position.setText(employeeD.getPosition());
+        salary_salary.setText(String.valueOf(employeeD.getSalary()));
+
+    }
+
     public void displayUsername() {
         username.setText(getData.username);
     }
@@ -583,6 +726,8 @@ public class dashboardController implements Initializable {
             salary_btn.setStyle("-fx-background-color: linear-gradient(to bottom left, #a9a9a9, #fffcfc);");
             addEmployee_btn.setStyle("-fx-background-color: transparent");
             home_btn.setStyle("-fx-background-color: transparent");
+
+            salaryShowListData();
 
         }
 
@@ -650,6 +795,8 @@ public class dashboardController implements Initializable {
         addEmployeeShowListData();
         addEmployeeGenderList();
         addEmployeePositionList();
+
+        salaryShowListData();
 
     }
 }
