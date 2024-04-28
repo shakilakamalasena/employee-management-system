@@ -140,7 +140,7 @@
                <center>
                   <AnchorPane fx:id="salary_form" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="home_form" layoutY="1.8" prefHeight="554.4" prefWidth="888.8" AnchorPane.bottomAnchor="-1.7999999999999545" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.8">
+                        <AnchorPane fx:id="home_form" layoutY="1.8" prefHeight="554.4" prefWidth="888.8" visible="false" AnchorPane.bottomAnchor="-1.7999999999999545" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.8">
                            <children>
                               <AnchorPane layoutX="11.0" layoutY="10.0" prefHeight="531.0" prefWidth="866.0" stylesheets="@dashboardDesign.css">
                                  <styleClass>
@@ -225,7 +225,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="addEmployee_form" layoutX="14.0" layoutY="14.0" prefHeight="554.4" prefWidth="888.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="addEmployee_form" layoutX="14.0" layoutY="14.0" prefHeight="554.4" prefWidth="888.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="13.0" prefHeight="528.0" prefWidth="860.0" stylesheets="@dashboardDesign.css">
                                  <children>
@@ -246,7 +246,7 @@
                                                 <TableColumn fx:id="addEmployee_col_date" prefWidth="106.4000244140625" text="Date Member" />
                                             </columns>
                                           </TableView>
-                                          <TextField fx:id="addEmployee_search" layoutX="14.0" layoutY="14.0" onAction="#addEmployeeSearch" onKeyTyped="#addEmployeeSearch" prefHeight="30.0" prefWidth="258.0" promptText="Search" />
+                                          <TextField fx:id="addEmployee_search" layoutX="14.0" layoutY="14.0" onMouseClicked="#addEmployeeSearch" prefHeight="30.0" prefWidth="258.0" promptText="Search" />
                                           <ImageView fitHeight="43.0" fitWidth="20.0" layoutX="247.0" layoutY="19.0" opacity="0.52" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@Assets/magnifying-glass.png" />
